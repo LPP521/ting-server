@@ -6,6 +6,14 @@ GTing89 = Ting89()
 async def handle(request):
     return web.Response(text='only post support')
 
+async def searchHandler(request):
+    inData = await request.json()
+    inName = inData['name']
+    data = GTing89.search(inName)
+
+    outData = [{'mod':'ting89','data':data}]
+    return web.json_response(outData)
+
 async def getModListHandler(request):
     outData = [{'name':'ting89'}]
     return web.json_response(outData)
@@ -30,6 +38,7 @@ async def getMP3URLHandler(request):
 def app(args=()):
     app = web.Application()
     app.add_routes([web.get('/', handle),
+                    web.post('/search',searchHandler),
                     web.post('/getmodlist',getModListHandler),
                     web.post('/getmp3list',getMP3ListHandler),
                     web.post('/getmp3url',getMP3URLHandler)])
