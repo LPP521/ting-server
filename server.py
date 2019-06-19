@@ -18,12 +18,12 @@ async def getModListHandler(request):
     outData = [{'name':'ting89'}]
     return web.json_response(outData)
 
-async def getMP3ListHandler(request):
+async def getAlbumDataHandler(request):
     inData = await request.json()
     inMod = inData['mod']
     inUrl = inData['url']
     if inMod=='ting89':
-        outData = GTing89.getList(inUrl)
+        outData = GTing89.getAlbumData(inUrl)
         return web.json_response(outData)   
 
 async def getMP3URLHandler(request):
@@ -40,7 +40,7 @@ def app(args=()):
     app.add_routes([web.get('/', handle),
                     web.post('/search',searchHandler),
                     web.post('/getmodlist',getModListHandler),
-                    web.post('/getmp3list',getMP3ListHandler),
+                    web.post('/getalbumData',getAlbumDataHandler),
                     web.post('/getmp3url',getMP3URLHandler)])
     return app
 

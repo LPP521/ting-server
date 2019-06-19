@@ -1,3 +1,4 @@
+#coding=utf-8
 from parsel import Selector
 import requests
 import json
@@ -28,13 +29,14 @@ class Ting89:
         
         return albumList
 
-    def getList(self,url):
+    def getAlbumData(self,url):
         r=requests.get(url)
         r.encoding = 'gb2312' # 此网站不规范，只能手写
         
         sel = Selector(r.text)
 
-        dataAll = []
+        albumTitle = sel.xpath("//h1/text()").get()
+        sounds = []
 
         for s in sel.xpath("//div[@class='numlist border'][2]//a"):
             title = s.xpath("./text()").get()
@@ -43,12 +45,16 @@ class Ting89:
                 "title":title,
                 "url":urllib.parse.urljoin(r.url, url)
             }
-            dataAll.append(data)
-        return dataAll
+            sounds.append(data)
+        data = {
+            'title':albumTitle,
+            'sounds':sounds
+        }
+        return data
 
     def getUrl(self,url,index):
-        dataAll = self.getList(url)
-        r = requests.get(dataAll[index]['url'])
+        sounds = self.getAlbumData(url)['sounds']
+        r = requests.get(sounds[index]['url'])
         r.encoding = 'gb2312'
         sel = Selector(r.text)
         iframe = sel.xpath("//iframe[contains(@src,'mp3')]/@src").get()
@@ -60,7 +66,7 @@ class Ting89:
 
 if __name__=='__main__':
     t = Ting89()
-    # print(t.getUrl("http://www.ting89.com/books/13503.html",0))
-    # print(t.getList("http://www.ting89.com/books/13503.html"))
-    print(t.search("阳间巡逻人"))
+    print(t.getUrl("http://www.ting89.com/books/13503.html",0))
+    # print(t.getAlbumData("http://www.ting89.com/books/13503.html"))
+    # print(t.search("阳间巡逻人"))
 
