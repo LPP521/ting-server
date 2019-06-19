@@ -27,10 +27,13 @@ async def getMP3URLHandler(request):
         outData = GTing89.getUrl(inUrl,inIndex)
         return web.json_response(outData)
 
-app = web.Application()
-app.add_routes([web.get('/', handle),
-                web.post('/getmodlist',getModListHandler),
-                web.post('/getmp3list',getMP3ListHandler),
-                web.post('/getmp3url',getMP3URLHandler)])
+def app():
+    app = web.Application()
+    app.add_routes([web.get('/', handle),
+                    web.post('/getmodlist',getModListHandler),
+                    web.post('/getmp3list',getMP3ListHandler),
+                    web.post('/getmp3url',getMP3URLHandler)])
+    return app
 
-web.run_app(app)
+
+# web.run_app(app)
