@@ -27,7 +27,7 @@ async def getMP3URLHandler(request):
         outData = GTing89.getUrl(inUrl,inIndex)
         return web.json_response(outData)
 
-def app():
+def app(args=()):
     app = web.Application()
     app.add_routes([web.get('/', handle),
                     web.post('/getmodlist',getModListHandler),
