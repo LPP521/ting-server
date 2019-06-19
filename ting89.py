@@ -1,10 +1,13 @@
 from parsel import Selector
 import requests
 import json
+import urllib.parse
+
 class Ting89:
     def getList(self,url):
         r=requests.get(url)
-
+        r.encoding = 'gb2312' # 此网站不规范，只能手写
+        
         sel = Selector(r.text)
 
         dataAll = []
@@ -14,19 +17,22 @@ class Ting89:
             url = s.xpath("./@href").get()
             data = {
                 "title":title,
-                "url":url
+                "url":urllib.parse.urljoin(r.url, url)
             }
             dataAll.append(data)
         return dataAll
 
     def getUrl(self,url,index):
         dataAll = self.getList(url)
-        r = requests.get('http://www.ting89.com'+dataAll[index]['url'])
+        r = requests.get(dataAll[index]['url'])
+        r.encoding = 'gb2312'
         sel = Selector(r.text)
         iframe = sel.xpath("//iframe[contains(@src,'mp3')]/@src").get()
-        r = requests.get(iframe)
-        sel = Selector(r.text)
-        return sel.xpath("//a[contains(@href,'mp3')]/@href").get()
+        print('iframe:',iframe)
+        a = (iframe.split('9090/'))[1]
+        url = "http://mp3-f.ting89.com:9090/"+urllib.parse.quote(a)
+        # print(url)
+        return url
 
 if __name__=='__main__':
     t = Ting89()

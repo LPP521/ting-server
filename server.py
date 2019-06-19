@@ -6,12 +6,6 @@ GTing89 = Ting89()
 async def handle(request):
     return web.Response(text='only post support')
 
-async def post_handler(request):
-    data = await request.json()
-    print(data)
-    print(data['title'])
-    return web.Response(text='abc')
-
 async def getModListHandler(request):
     outData = [{'name':'ting89'}]
     return web.json_response(outData)
