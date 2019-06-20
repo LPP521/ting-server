@@ -64,7 +64,10 @@ class Ting89:
         print(s[1])
         url = s[0]+'9090/'+urllib.parse.quote(s[1])
         # print(url)
-        return url
+        data = {
+            "url":url
+        }
+        return data
 
 if __name__=='__main__':
     t = Ting89()
