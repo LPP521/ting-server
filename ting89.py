@@ -38,10 +38,7 @@ class Ting89:
             r=requests.get(url,timeout=2)
         except requests.exceptions.RequestException as e:
             print(e)
-            data = {
-                'error':'timeout'
-            }
-            return data
+            return {'error':'timeout'}
         r.encoding = 'gb2312' # 此网站不规范，只能手写
         
         sel = Selector(r.text)
@@ -91,7 +88,7 @@ class Ting89:
 
 if __name__=='__main__':
     t = Ting89()
-    print(t.getUrl("http://www.ting89.com/books/13503.html",0))
-    # print(t.getAlbumData("http://www.ting89.com/books/13503.html"))
+    # print(t.getUrl("http://www.ting89.com/books/13503.html",0))
+    print(t.getAlbumData("http://www.ting89.com/books/13503.html"))
     # print(t.search("阳间巡逻人"))
 
