@@ -7,4 +7,4 @@
 2、根据提供的url获得指定播放列表
 3、根据提供的url+index获得指定的播放url
 
-python3 -m aiohttp.web -P 18004 server:app
+python3 -m aiohttp.web -P 18004 -H 0.0.0.0 server:app
