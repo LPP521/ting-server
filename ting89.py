@@ -3,6 +3,7 @@ from parsel import Selector
 import requests
 import json
 import urllib.parse
+from requests.adapters import HTTPAdapter
 
 class Ting89:
     def search(self,name):
@@ -14,7 +15,7 @@ class Ting89:
         }
         data_gb2312 = urllib.parse.urlencode(data, encoding='gb2312')
         try:
-            r = requests.post('http://www.ting89.com/search.asp', data=data_gb2312, headers=headers,timeout=2)
+            r = requests.post('http://www.ting89.com/search.asp', data=data_gb2312, headers=headers,timeout=3)
         except requests.exceptions.RequestException as e:
             print(e)
             return []
@@ -34,8 +35,11 @@ class Ting89:
         return albumList
 
     def getAlbumData(self,url):
+        s = requests.Session()
+        s.mount('http://', HTTPAdapter(max_retries=3))
+        s.mount('https://', HTTPAdapter(max_retries=3))
         try:
-            r=requests.get(url,timeout=2)
+            r=s.get(url,timeout=3)
         except requests.exceptions.RequestException as e:
             print(e)
             return {'error':'timeout'}
@@ -62,12 +66,15 @@ class Ting89:
         return data
 
     def getUrl(self,url,index):
+        s = requests.Session()
+        s.mount('http://', HTTPAdapter(max_retries=3))
+        s.mount('https://', HTTPAdapter(max_retries=3))
         ad = self.getAlbumData(url)
         if ad['error'] != '':
             return {'error':'timeout'}
         sounds = self.getAlbumData(url)['sounds']
         try:
-            r = requests.get(sounds[index]['url'],timeout=2)
+            r = s.get(sounds[index]['url'],timeout=3)
         except requests.exceptions.RequestException as e:
             print(e)
             return {'error':'timeout'}
@@ -88,7 +95,7 @@ class Ting89:
 
 if __name__=='__main__':
     t = Ting89()
-    # print(t.getUrl("http://www.ting89.com/books/13503.html",0))
-    print(t.getAlbumData("http://www.ting89.com/books/13503.html"))
+    print(t.getUrl("http://www.ting89.com/books/13503.html",0))
+    # print(t.getAlbumData("http://www.ting89.com/books/13503.html"))
     # print(t.search("阳间巡逻人"))
 
