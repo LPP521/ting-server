@@ -9,9 +9,12 @@ async def handle(request):
 async def searchHandler(request):
     inData = await request.json()
     inName = inData['name']
+
+    print('searching',inName)
     data = GTing89.search(inName)
 
     outData = [{'mod':'ting89','data':data}]
+    print('search ok')
     return web.json_response(outData)
 
 async def getModListHandler(request):
@@ -22,6 +25,7 @@ async def getAlbumDataHandler(request):
     inData = await request.json()
     inMod = inData['mod']
     inUrl = inData['url']
+    print('getAlbumDataHandler',inUrl)
     if inMod=='ting89':
         outData = GTing89.getAlbumData(inUrl)
         return web.json_response(outData)   
@@ -31,6 +35,7 @@ async def getMP3URLHandler(request):
     inMod = inData['mod']
     inUrl = inData['url']
     inIndex = inData['index']
+    print('getMP3URLHandler',inUrl)
     if inMod=='ting89':
         outData = GTing89.getUrl(inUrl,inIndex)
         return web.json_response(outData)
