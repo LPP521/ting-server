@@ -13,9 +13,13 @@ class Ting89:
             'submit':'搜索'
         }
         data_gb2312 = urllib.parse.urlencode(data, encoding='gb2312')
-        r = requests.post('http://www.ting89.com/search.asp', data=data_gb2312, headers=headers)
+        try:
+            r = requests.post('http://www.ting89.com/search.asp', data=data_gb2312, headers=headers,timeout=2)
+        except requests.exceptions.RequestException as e:
+            print(e)
+            return []
+
         r.encoding = 'gb2312'
-        
         sel = Selector(r.text)
 
         albumList = []
@@ -30,7 +34,14 @@ class Ting89:
         return albumList
 
     def getAlbumData(self,url):
-        r=requests.get(url)
+        try:
+            r=requests.get(url,timeout=2)
+        except requests.exceptions.RequestException as e:
+            print(e)
+            data = {
+                'error':'timeout'
+            }
+            return data
         r.encoding = 'gb2312' # 此网站不规范，只能手写
         
         sel = Selector(r.text)
@@ -48,13 +59,21 @@ class Ting89:
             sounds.append(data)
         data = {
             'title':albumTitle,
-            'sounds':sounds
+            'sounds':sounds,
+            'error':''
         }
         return data
 
     def getUrl(self,url,index):
+        ad = self.getAlbumData(url)
+        if ad['error'] != '':
+            return {'error':'timeout'}
         sounds = self.getAlbumData(url)['sounds']
-        r = requests.get(sounds[index]['url'])
+        try:
+            r = requests.get(sounds[index]['url'],timeout=2)
+        except requests.exceptions.RequestException as e:
+            print(e)
+            return {'error':'timeout'}
         r.encoding = 'gb2312'
         sel = Selector(r.text)
         iframe = sel.xpath("//iframe[contains(@src,'mp3')]/@src").get()
@@ -65,7 +84,8 @@ class Ting89:
         url = s[0]+'9090/'+urllib.parse.quote(s[1])
         # print(url)
         data = {
-            "url":url
+            "url":url,
+            'error':''
         }
         return data
 

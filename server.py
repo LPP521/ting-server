@@ -14,7 +14,6 @@ async def searchHandler(request):
     data = GTing89.search(inName)
 
     outData = [{'mod':'ting89','data':data}]
-    print('search ok')
     return web.json_response(outData)
 
 async def getModListHandler(request):
