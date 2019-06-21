@@ -58,10 +58,10 @@ class Ting89:
         r.encoding = 'gb2312'
         sel = Selector(r.text)
         iframe = sel.xpath("//iframe[contains(@src,'mp3')]/@src").get()
-        print('iframe:',iframe)
+        # print('iframe:',iframe)
         u = (iframe.split('url='))[1]
         s = u.split('9090/')
-        print(s[1])
+        # print(s[1])
         url = s[0]+'9090/'+urllib.parse.quote(s[1])
         # print(url)
         data = {
