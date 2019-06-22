@@ -95,7 +95,7 @@ class Ting89:
 
 if __name__=='__main__':
     t = Ting89()
-    print(t.getUrl("http://www.ting89.com/books/13503.html",0))
+    # print(t.getUrl("http://www.ting89.com/books/13503.html",0))
     # print(t.getAlbumData("http://www.ting89.com/books/13503.html"))
-    # print(t.search("阳间巡逻人"))
+    print(t.search("阳间巡逻人"))
 

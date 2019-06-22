@@ -10,7 +10,7 @@ async def searchHandler(request):
     inData = await request.json()
     inName = inData['name']
 
-    print('searching',inName)
+    # print('searching',inName)
     data = GTing89.search(inName)
 
     outData = [{'mod':'ting89','data':data}]
