@@ -48,7 +48,7 @@ class Woai:
         
         sel = Selector(r.text)
 
-        albumTitle = sel.xpath("//h1/text()").get()
+        albumTitle = sel.xpath("//h2/text()").get()
         sounds = []
 
         for s in sel.xpath("//div[@class='play-list']//a"):
@@ -83,7 +83,7 @@ class Woai:
         r.encoding = 'gb2312'
         # print(r.text)
         url = getUrlFromDatas(r.text)
-        
+
         data = {
             "url":url,
             'error':''
@@ -92,8 +92,8 @@ class Woai:
 
 if __name__=='__main__':
     t = Woai()
-    print(t.getUrl("http://www.woaitingshu.com/mp3/4839.html",0))
-    # print(t.getAlbumData("http://www.woaitingshu.com/mp3/4839.html"))
+    # print(t.getUrl("http://www.woaitingshu.com/mp3/4839.html",0))
+    print(t.getAlbumData("http://www.woaitingshu.com/mp3/4839.html"))
     # print(t.search("阳间巡逻人"))
 
 
