@@ -72,7 +72,7 @@ class Ting89:
         ad = self.getAlbumData(url)
         if ad['error'] != '':
             return {'error':'timeout'}
-        sounds = self.getAlbumData(url)['sounds']
+        sounds = ad['sounds']
         try:
             r = s.get(sounds[index]['url'],timeout=3)
         except requests.exceptions.RequestException as e:
