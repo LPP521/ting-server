@@ -75,6 +75,8 @@ class Woai:
             return {'error':'timeout'}
         sounds = ad['sounds']
         try:
+            if index>= len(sounds):
+                return {'error':'over'}
             print(sounds[index]['url'])
             r = s.get(sounds[index]['url'],timeout=3)
         except requests.exceptions.RequestException as e:
@@ -92,8 +94,8 @@ class Woai:
 
 if __name__=='__main__':
     t = Woai()
-    # print(t.getUrl("http://www.woaitingshu.com/mp3/4839.html",0))
-    print(t.getAlbumData("http://www.woaitingshu.com/mp3/4839.html"))
+    print(t.getUrl("http://www.woaitingshu.com/mp3/4839.html",246))
+    # print(t.getAlbumData("http://www.woaitingshu.com/mp3/4839.html"))
     # print(t.search("阳间巡逻人"))
 
 
