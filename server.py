@@ -1,9 +1,11 @@
 from aiohttp import web
 from ting89 import Ting89
 from woai import Woai
+from baidu import Baidu
 
 GTing89 = Ting89()
-Wa = Woai()
+Gwa = Woai()
+GBaidu = Baidu()
 
 async def handle(request):
     return web.Response(text='only post support')
@@ -14,9 +16,11 @@ async def searchHandler(request):
 
     # print('searching',inName)
     data1 = GTing89.search(inName)
-    data2 = Wa.search(inName)
+    data2 = Gwa.search(inName)
+    data3 = GBaidu.search(inName)
     outData = [{'mod':'ting89','data':data1},
-                {'mod':'woai','data':data2}]
+                {'mod':'woai','data':data2},
+                {'mod':'baidu','data':data3}]
     return web.json_response(outData)
 
 async def getModListHandler(request):
@@ -32,7 +36,10 @@ async def getAlbumDataHandler(request):
         outData = GTing89.getAlbumData(inUrl)
         return web.json_response(outData)
     if inMod=='woai':
-        outData = Wa.getAlbumData(inUrl)
+        outData = Gwa.getAlbumData(inUrl)
+        return web.json_response(outData)
+    if inMod=='baidu':
+        outData = GBaidu.getAlbumData(inUrl)
         return web.json_response(outData)
 
 async def getMP3URLHandler(request):
@@ -45,7 +52,10 @@ async def getMP3URLHandler(request):
         outData = GTing89.getUrl(inUrl,inIndex)
         return web.json_response(outData)
     if inMod=='woai':
-        outData = Wa.getUrl(inUrl,inIndex)
+        outData = Gwa.getUrl(inUrl,inIndex)
+        return web.json_response(outData)
+    if inMod=='baidu':
+        outData = GBaidu.getUrl(inUrl,inIndex)
         return web.json_response(outData)
 
 def app(args=()):
