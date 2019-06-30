@@ -6,10 +6,13 @@ import json
 import urllib.parse
 from requests.adapters import HTTPAdapter
 import pickle as pk
+import subprocess
 
 class Baidu:
     def search(self,name):
-        lsStr = os.popen("python baidu2.py ls -c off /ting|awk '{print $3}'").read()
+        obj = subprocess.Popen("python baidu2.py ls -c off /ting|awk '{print $3}'",shell=True,stdout = subprocess.PIPE)
+        obj.wait()
+        lsStr = obj.stdout.read().decode('utf-8')
         albumList = []
         for n in lsStr.split('\n'):
             if len(n)>0:
@@ -51,7 +54,7 @@ class Baidu:
         sounds = ad['sounds']
         url = os.popen("python baidu2.py d /ting/"+sounds[index]['url']).read()
         url = url[:-1]#去掉结尾的\n
-        print(url)
+        # print(url)
         s = requests.Session()
         s.mount('http://', HTTPAdapter(max_retries=3))
         s.mount('https://', HTTPAdapter(max_retries=3))
@@ -63,7 +66,7 @@ class Baidu:
         except requests.exceptions.RequestException as e:
             print(e)
             return {'error':'timeout'}
-        print(r.status_code)
+        # print(r.status_code)
         url = r.headers['Location']
         data = {
             "url":url,
@@ -73,9 +76,9 @@ class Baidu:
 
 if __name__=='__main__':
     t = Baidu()
-    print(t.getUrl("超级惊悚直播",0))
+    # print(t.getUrl("超级惊悚直播",0))
     # print(t.getAlbumData("超级惊悚直播"))
-    # print(t.search("超级"))
+    print(t.search("超级"))
     
 
     # url = os.popen("python ding.py d /ting/超级惊悚直播/001.mp3").read()
