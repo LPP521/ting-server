@@ -28,9 +28,9 @@ class Baidu:
 
     def getAlbumData(self,url):
         albumTitle = url
-        obj = subprocess.Popen("python baidu2.py ls -c off /ting/"+url+"|awk '{print $3}'",shell=True,stdout = subprocess.PIPE)
+        obj = subprocess.Popen("python baidu2.py ls -c off /ting/"+url+"|awk '{print $3}'",shell=True,stdout = subprocess.PIPE,encoding="utf-8")
         obj.wait()
-        lsStr = obj.stdout.read().decode('utf-8')
+        lsStr = obj.stdout.read()
         sounds = []
         for s in lsStr.split('\n'):
             if len(s)>0 and (s.find('.mp3')>0 or s.find('.m4a')>0):
@@ -80,8 +80,8 @@ class Baidu:
 
 if __name__=='__main__':
     t = Baidu()
-    print(t.getUrl("超级惊悚直播",0))
-    # print(t.getAlbumData("超级惊悚直播"))
+    # print(t.getUrl("超级惊悚直播",0))
+    print(t.getAlbumData("超级惊悚直播"))
     # print(t.search("超级"))
     
 
