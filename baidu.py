@@ -28,7 +28,9 @@ class Baidu:
 
     def getAlbumData(self,url):
         albumTitle = url
-        lsStr = os.popen("python baidu2.py ls -c off /ting/"+url+"|awk '{print $3}'").read()
+        obj = subprocess.Popen("python baidu2.py ls -c off /ting/"+url+"|awk '{print $3}'",shell=True,stdout = subprocess.PIPE)
+        obj.wait()
+        lsStr = obj.stdout.read().decode('utf-8')
         sounds = []
         for s in lsStr.split('\n'):
             if len(s)>0 and (s.find('.mp3')>0 or s.find('.m4a')>0):
@@ -52,7 +54,9 @@ class Baidu:
         
         ad = self.getAlbumData(url)
         sounds = ad['sounds']
-        url = os.popen("python baidu2.py d /ting/"+sounds[index]['url']).read()
+        obj = subprocess.Popen("python baidu2.py d /ting/"+sounds[index]['url'],shell=True,stdout = subprocess.PIPE)
+        obj.wait()
+        url = obj.stdout.read().decode('utf-8')
         url = url[:-1]#去掉结尾的\n
         # print(url)
         s = requests.Session()
@@ -76,9 +80,9 @@ class Baidu:
 
 if __name__=='__main__':
     t = Baidu()
-    # print(t.getUrl("超级惊悚直播",0))
+    print(t.getUrl("超级惊悚直播",0))
     # print(t.getAlbumData("超级惊悚直播"))
-    print(t.search("超级"))
+    # print(t.search("超级"))
     
 
     # url = os.popen("python ding.py d /ting/超级惊悚直播/001.mp3").read()
