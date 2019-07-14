@@ -1,0 +1,7 @@
+version: '3.2'
+services: 
+  ting:
+    image: u03013112/ting-server
+    container_name: 'ting'
+    ports:
+      - 18004:18004

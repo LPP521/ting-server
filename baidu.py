@@ -81,7 +81,7 @@ class Baidu:
 if __name__=='__main__':
     t = Baidu()
     # print(t.getUrl("超级惊悚直播",0))
-    print(t.getAlbumData("超级惊悚直播"))
+    print(t.getAlbumData("茅.S.鬼.S.师_0629"))
     # print(t.search("超级"))
     
 
