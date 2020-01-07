@@ -83,7 +83,6 @@ if __name__=='__main__':
     # print(t.getUrl("超级惊悚直播",0))
     print(t.getAlbumData("茅.S.鬼.S.师_0629"))
     # print(t.search("超级"))
-    
 
     # url = os.popen("python ding.py d /ting/超级惊悚直播/001.mp3").read()
     # print(url)
