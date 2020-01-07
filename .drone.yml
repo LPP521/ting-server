@@ -1,0 +1,24 @@
+---
+kind: pipeline
+name: default
+
+steps:
+- name: docker-latest
+  image: plugins/docker
+  settings:
+    username:
+      from_secret: DOCKER_USER
+    password:
+      from_secret: DOCKER_PASSWORD
+    repo: u03013112/ting-server
+    tags:
+      - latest
+    dockerfile: Dockerfile
+  when:
+    branch:
+      - master
+    event:
+      - push
+
+
+...
