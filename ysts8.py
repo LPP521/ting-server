@@ -8,7 +8,7 @@ from getUrlFromDatas import getUrlFromDatas
 import urllib.parse
 # from selenium import webdriver
 
-class Ysts:
+class Ysts8:
     def search(self,name):        
         name_gb2312 = urllib.parse.quote(name, encoding='gb2312')
         url = 'https://www.ysts8.net/Ys_so.asp?stype=1&keyword='+name_gb2312
@@ -122,7 +122,7 @@ if __name__=='__main__':
     # print(t.getUrl("http://www.woaitingshu.com/mp3/4839.html",246))
     # print(t.getAlbumData("http://www.woaitingshu.com/mp3/4839.html"))
     # print(t.search("阳间巡逻人"))
-    y = Ysts()
+    y = Ysts8()
     # print(y.search("神霄煞仙"))
     print(y.getUrl("https://www.ysts8.net/Yshtml/Ys16188.html",100))
     

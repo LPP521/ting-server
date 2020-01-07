@@ -1,11 +1,13 @@
 from aiohttp import web
 from ting89 import Ting89
-from woai import Woai
+# from woai import Woai
 from baidu import Baidu
+from ysts8 import Ysts8
 
 GTing89 = Ting89()
-Gwa = Woai()
+# Gwa = Woai()
 GBaidu = Baidu()
+GYsts8 = Ysts8()
 
 async def handle(request):
     return web.Response(text='only post support')
@@ -16,10 +18,10 @@ async def searchHandler(request):
 
     # print('searching',inName)
     data1 = GTing89.search(inName)
-    data2 = Gwa.search(inName)
+    data2 = GYsts8.search(inName)
     data3 = GBaidu.search(inName)
     outData = [{'mod':'ting89','data':data1},
-                {'mod':'woai','data':data2},
+                {'mod':'ysts8','data':data2},
                 {'mod':'baidu','data':data3}]
     return web.json_response(outData)
 
@@ -35,11 +37,14 @@ async def getAlbumDataHandler(request):
     if inMod=='ting89':
         outData = GTing89.getAlbumData(inUrl)
         return web.json_response(outData)
-    if inMod=='woai':
-        outData = Gwa.getAlbumData(inUrl)
-        return web.json_response(outData)
+    # if inMod=='woai':
+    #     outData = Gwa.getAlbumData(inUrl)
+    #     return web.json_response(outData)
     if inMod=='baidu':
         outData = GBaidu.getAlbumData(inUrl)
+        return web.json_response(outData)
+    if inMod=='ysts8':
+        outData = GYsts8.getAlbumData(inUrl)
         return web.json_response(outData)
 
 async def getMP3URLHandler(request):
@@ -51,11 +56,14 @@ async def getMP3URLHandler(request):
     if inMod=='ting89':
         outData = GTing89.getUrl(inUrl,inIndex)
         return web.json_response(outData)
-    if inMod=='woai':
-        outData = Gwa.getUrl(inUrl,inIndex)
-        return web.json_response(outData)
+    # if inMod=='woai':
+    #     outData = Gwa.getUrl(inUrl,inIndex)
+    #     return web.json_response(outData)
     if inMod=='baidu':
         outData = GBaidu.getUrl(inUrl,inIndex)
+        return web.json_response(outData)
+    if inMod=='ysts8':
+        outData = GYsts8.getUrl(inUrl,inIndex)
         return web.json_response(outData)
 
 def app(args=()):
