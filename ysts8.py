@@ -87,13 +87,13 @@ class Ysts8:
             if retries > 5 :
                 data = {
                     "url":'',
-                    'error':'retries max'
+                    'error':'timeout'
                 }
                 return data
-                
+
             driver = webdriver.Remote(
-                command_executor="http://selenium-hub:4444/wd/hub",
-                # command_executor="http://127.0.0.1:4444/wd/hub",
+                # command_executor="http://selenium-hub:4444/wd/hub",
+                command_executor="http://127.0.0.1:4444/wd/hub",
                 desired_capabilities=DesiredCapabilities.FIREFOX
             )
             driver.set_page_load_timeout(5)
@@ -142,5 +142,5 @@ if __name__=='__main__':
     # print(t.search("阳间巡逻人"))
     y = Ysts8()
     # print(y.search("神霄煞仙"))
-    print(y.getUrl("https://www.ysts8.net/Yshtml/Ys16188.html",224))
+    print(y.getUrl("https://www.ysts8.net/Yshtml/Ys7524.html",226))
     # y.test()
