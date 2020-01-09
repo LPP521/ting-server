@@ -8,12 +8,16 @@ from getUrlFromDatas import getUrlFromDatas
 import urllib.parse
 from selenium import webdriver
 from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
+import logging
 
 class Ysts8:
+    def init(self):
+        logging.getLogger("requests").setLevel(logging.WARNING)
+        logging.getLogger("urllib3").setLevel(logging.WARNING)
+
     def search(self,name):        
         name_gb2312 = urllib.parse.quote(name, encoding='gb2312')
         url = 'https://www.ysts8.net/Ys_so.asp?stype=1&keyword='+name_gb2312
-
         try:
             r = requests.get(url, timeout=3)
         except requests.exceptions.RequestException as e:
