@@ -81,7 +81,16 @@ class Ysts8:
         sounds = ad['sounds']
 
         url2 = ""
+        retries = 0
         while url2 == "" :
+            retries = retries + 1
+            if retries > 5 :
+                data = {
+                    "url":'',
+                    'error':'retries max'
+                }
+                return data
+                
             driver = webdriver.Remote(
                 command_executor="http://selenium-hub:4444/wd/hub",
                 # command_executor="http://127.0.0.1:4444/wd/hub",
@@ -105,7 +114,6 @@ class Ysts8:
             "url":url2,
             'error':''
         }
-        # print(data)
         return data
 
     def test(self):
