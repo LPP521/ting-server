@@ -76,38 +76,37 @@ class Ysts8:
             return {'error':'timeout'}
         sounds = ad['sounds']
 
-        driver = webdriver.Remote(
-            command_executor="http://selenium-hub:4444/wd/hub",
-            desired_capabilities=DesiredCapabilities.FIREFOX
-        )
-        driver.set_page_load_timeout(5)
         url2 = ""
-        try:
-            driver.get(sounds[index]['url'])
-            print(driver.title)
-            iframe = driver.find_element_by_xpath("//iframe[@id='play']")
-            driver.switch_to_frame(iframe) 
-            cc = driver.find_element_by_tag_name("audio")
-            url2 = cc.get_attribute('src')
-        except:
-            print("xpath error")
-        finally:
-            driver.quit()
+        while url2 == "" :
+            driver = webdriver.Remote(
+                command_executor="http://selenium-hub:4444/wd/hub",
+                # command_executor="http://127.0.0.1:4444/wd/hub",
+                desired_capabilities=DesiredCapabilities.FIREFOX
+            )
+            driver.set_page_load_timeout(5)
+            try:
+                driver.get(sounds[index]['url'])
+                print(driver.title)
+                iframe = driver.find_element_by_xpath("//iframe[@id='play']")
+                driver.switch_to_frame(iframe) 
+                cc = driver.find_element_by_tag_name("audio")
+                url2 = cc.get_attribute('src')
+            except:
+                print("xpath error")
+            finally:
+                driver.quit()
 
-        print(url2)
-        if url2 != "":
-            data = {
-                "url":url2,
-                'error':''
-            }
-            # print(data)
-            return data
-
-        return self.getUrl(url,index)
+        print(url2)        
+        data = {
+            "url":url2,
+            'error':''
+        }
+        # print(data)
+        return data
 
     def test(self):
         driver = webdriver.Remote(
-            command_executor="http://selenium-hub:4444/wd/hub",
+            command_executor="http://127.0.0.1:4444/wd/hub",
             desired_capabilities=DesiredCapabilities.FIREFOX
         )
         driver.set_page_load_timeout(5)
@@ -131,5 +130,5 @@ if __name__=='__main__':
     # print(t.search("阳间巡逻人"))
     y = Ysts8()
     # print(y.search("神霄煞仙"))
-    print(y.getUrl("https://www.ysts8.net/Yshtml/Ys16188.html",100))
+    print(y.getUrl("https://www.ysts8.net/Yshtml/Ys16188.html",224))
     # y.test()
