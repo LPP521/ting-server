@@ -8,7 +8,11 @@ from getUrlFromDatas import getUrlFromDatas
 import urllib.parse
 from selenium import webdriver
 from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
+from selenium.webdriver.support.ui import WebDriverWait as wait
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support import expected_conditions as EC
 import logging
+import time
 
 class Ysts8:
     def init(self):
@@ -79,68 +83,55 @@ class Ysts8:
         if ad['error'] != '':
             return {'error':'timeout'}
         sounds = ad['sounds']
-
         url2 = ""
-        retries = 0
-        while url2 == "" :
-            retries = retries + 1
-            if retries > 5 :
-                data = {
-                    "url":'',
-                    'error':'timeout'
-                }
-                return data
 
-            driver = webdriver.Remote(
-                command_executor="http://selenium-hub:4444/wd/hub",
-                # command_executor="http://127.0.0.1:4444/wd/hub",
-                desired_capabilities=DesiredCapabilities.FIREFOX
-            )
-            driver.set_page_load_timeout(5)
-            try:
-                driver.get(sounds[index]['url'])
-                print(driver.title)
-                iframe = driver.find_element_by_xpath("//iframe[@id='play']")
-                driver.switch_to_frame(iframe) 
-                cc = driver.find_element_by_tag_name("audio")
-                url2 = cc.get_attribute('src')
-            except:
-                print("xpath error")
-            finally:
-                driver.quit()
-
-        print(url2)        
-        data = {
-            "url":url2,
-            'error':''
-        }
-        return data
-
-    def test(self):
+        option = webdriver.FirefoxOptions()
+        option.add_argument("-headless")
+        option.set_preference('permissions.default.image', 2)
+        option.set_preference('permissions.default.stylesheet',2)
+        print("ss0")
         driver = webdriver.Remote(
-            command_executor="http://127.0.0.1:4444/wd/hub",
+            # command_executor="http://selenium-hub:4444/wd/hub",
+            options=option,
             desired_capabilities=DesiredCapabilities.FIREFOX
         )
-        driver.set_page_load_timeout(5)
+        driver.set_page_load_timeout(10)
+        driver.set_script_timeout(10)
+        
         try:
-            driver.get("https://www.ysts8.net/play_16188_55_1_1.html")
+            driver.get(sounds[index]['url'])
             print(driver.title)
             iframe = driver.find_element_by_xpath("//iframe[@id='play']")
-            driver.switch_to_frame(iframe) 
+            time.sleep(1)
+            # wait(driver, 10).until(EC.frame_to_be_available_and_switch_to_it(iframe))
+            driver.switch_to.frame(iframe)
+            # print("page_source:")
+            # print(driver.page_source)
+            
             cc = driver.find_element_by_tag_name("audio")
-            print(cc.get_attribute('src'))
-        except:
+            url2 = cc.get_attribute('src')
+        except :
             print("xpath error")
         finally:
             driver.quit()
-        
-        
+
+        if url2 == "":
+            data = {
+                "url":'',
+                'error':'timeout'
+            }
+            return data
+        else:
+            # print(url2)        
+            data = {
+                "url":url2,
+                'error':''
+            }
+            return data
+
 if __name__=='__main__':
-    # t = Woai()
-    # print(t.getUrl("http://www.woaitingshu.com/mp3/4839.html",246))
-    # print(t.getAlbumData("http://www.woaitingshu.com/mp3/4839.html"))
-    # print(t.search("阳间巡逻人"))
     y = Ysts8()
     # print(y.search("神霄煞仙"))
+    # print(y.getAlbumData("https://www.ysts8.net/Yshtml/Ys7524.html"))
     print(y.getUrl("https://www.ysts8.net/Yshtml/Ys7524.html",226))
     # y.test()
