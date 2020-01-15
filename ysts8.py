@@ -91,7 +91,7 @@ class Ysts8:
         option.set_preference('permissions.default.stylesheet',2)
         print("ss0")
         driver = webdriver.Remote(
-            # command_executor="http://selenium-hub:4444/wd/hub",
+            command_executor="http://selenium-hub:4444/wd/hub",
             options=option,
             desired_capabilities=DesiredCapabilities.FIREFOX
         )
