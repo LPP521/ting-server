@@ -1,4 +1,4 @@
-version: '3.2'
+version: '3.7'
 services: 
   selenium-hub:
     image: selenium/hub:3.141.59-yttrium
@@ -32,4 +32,4 @@ services:
     image: u03013112/ting-server
     container_name: 'ting'
     ports:
-      - 18004:18004
+      - 18044:18004
